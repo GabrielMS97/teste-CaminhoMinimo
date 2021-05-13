@@ -3,6 +3,7 @@ import Mapa from "./Mapa.js";
 import Sprite from "./Sprite.js";
 import modeloMapaFase1 from "../maps/mapa1.js";
 import Layer from "./Layer.js";
+import Path from "./Path.js";
 
 export default class CenaMapaGrid extends Cena{
     quandoColidir(a, b){
@@ -25,25 +26,37 @@ export default class CenaMapaGrid extends Cena{
         // Desenha o layer
         const layer1 = new Layer(LINHAS, COLUNAS, TAMANHO_TILE);
         layer1.carregaLayer(modeloMapaFase1);
-        this.configuraLayer(layer1);  
+        this.configuraLayer(layer1);
         
         const cena = this;
-
+        
         // Cria entrada
         const entrada = new Sprite({x: 65, y: randValue(65,310), w: 20, h: 20, color:"yellow", tags:["entrada"]});
         this.adicionar(entrada);
-
+        
         // Cria pc
         const pc = new Sprite({x: entrada.x, y :entrada.y, w: 15, h: 15, color: "red", controlar:movimentoTeclado});
         pc.tags.add("pc");
         this.adicionar(pc);
-
+        
         this.layer.atualizaDistanciasManhattan(pc.mx, pc.my);
         
         // Cria saída
         const exit = new Sprite({x: 510, y: randValue(65,310), w: 20, h: 20, tags:["exit"], controlar:estatico});
         this.adicionar(exit);
         
+        // Desenha o path
+        const path1 = new Path(LINHAS, COLUNAS, TAMANHO_TILE);
+        path1.addStep(0,0);
+        path1.addStep(0,1);
+        path1.addStep(0,2);
+        path1.addStep(1,2);
+        path1.addStep(2,6);
+        path1.addStep(5,2);
+        path1.addStep(2,2);
+        path1.addStep(7,3);
+        this.configuraPath(path1);
+
         // Função geradora de valores aleatórios
         function randValue(min, max) {
             min = Math.ceil(min);
@@ -53,9 +66,10 @@ export default class CenaMapaGrid extends Cena{
 
         //Função de movimento estático
         function estatico(dt){
-            cena.layer.iniciaLayers(pc.mx, pc.my, this.mx, this.my);
+            cena.layer.iniciaLayers(pc.mx, pc.my, exit.mx, exit.my);
             cena.layer.inundarRecursivo(this.my, this.mx, this.my, this.mx);
             cena.layer.apontarDirecoes();
+            //cena.layer.calculaCaminho();
         }
 
         // Função de movimentação pelo teclado

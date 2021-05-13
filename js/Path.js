@@ -1,15 +1,18 @@
 export default class Path{
-    constructor(layer = null){
-        this.layer = layer;
-        this.LINHAS = this.layer.LINHAS;
-        this.COLUNAS = this.layer.COLUNAS;
-        this.SIZE = this.layer.SIZE;
+    constructor(linhas = 8, colunas = 12, tamanho = 32, cena = null){
+        this.LINHAS = linhas;
+        this.COLUNAS = colunas;
+        this.SIZE = tamanho;
+        this.cena = cena;
         this.tiles = [];
         this.caminho = [];
+        this.steps = [];
         for (let l = 0; l < this.LINHAS; l++) {
             this.tiles[l] = [];
+            this.steps[l] = [];
             for (let c = 0; c < this.COLUNAS; c++) {
                 this.tiles[l][c] = 0;
+                this.steps[l][c] = 0;
             }
         }
     }
@@ -17,10 +20,10 @@ export default class Path{
     desenhar(ctx){
         for (let l = 0; l < this.LINHAS; l++) {
             for (let c = 0; c < this.COLUNAS; c++) {
-                /*ctx.font = "15px Arial";
+                ctx.font = "15px Arial";
                 ctx.fillStyle = "blue";
-                ctx.fillText(this.caminho[l][c], c*this.SIZE + this.SIZE/2, l*this.SIZE + this.SIZE/2 + 10);*/
-                if(this.caminho[l][c] === "<"){
+                //ctx.fillText(this.caminho[l][c], c*this.SIZE + this.SIZE/2, l*this.SIZE + this.SIZE/2 + 10);
+                /*if(this.caminho[l][c] === "<"){
                     ctx.drawImage(this.layer.cena.assets.img("setaO"), c*this.SIZE + 11, l*this.SIZE + 11, 25, 25);
                 }
                 if(this.caminho[l][c] === ">"){
@@ -31,9 +34,20 @@ export default class Path{
                 }
                 if(this.caminho[l][c] === "v"){
                     ctx.drawImage(this.layer.cena.assets.img("setaS"), c*this.SIZE + 11, l*this.SIZE + 11, 25, 25);
+                }*/
+                if(this.steps[l][c] === 1){
+                    ctx.fillText(" O ", c*this.SIZE + this.SIZE/2, l*this.SIZE + this.SIZE/2 + 10);
                 }
-
                 ctx.strokeRect(c*this.SIZE, l*this.SIZE, this.SIZE, this.SIZE); 
+            }
+        }
+    }
+
+    carregaPath(mxE, myE, mxS, myS, caminho){
+        for (let l = 0; l < this.LINHAS; l++) {
+            this.tiles[l] = [];
+            for (let c = 0; c < this.COLUNAS; c++) {
+                this.tiles[l][c] = caminho[l][c];
             }
         }
     }
@@ -73,5 +87,9 @@ export default class Path{
             }
         }
 
+    }
+
+    addStep(x,y){
+        this.steps[x][y] = 1;
     }
 }

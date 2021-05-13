@@ -21,17 +21,15 @@ export default class Layer{
         this.direcoes = [];
         this.pcx = null;
         this.pcy = null;
-        this.caminho = new Path(this);
         this.mxEntrada = null;
         this.myEntrada = null;
         this.mxSaida = null;
         this.mySaida = null;
+        this.caminho = [];
     }
 
     desenhar(ctx){
         if(this.mostrarCaminho){
-            this.caminho.calculaCaminho();
-            this.caminho.desenhar(ctx);
         }
         for (let l = 0; l < this.LINHAS; l++) {
             for (let c = 0; c < this.COLUNAS; c++) {
@@ -54,6 +52,9 @@ export default class Layer{
                         if(this.direcoes[l][c] === "S"){
                             ctx.fillText("v", c*this.SIZE + this.SIZE/2, l*this.SIZE + this.SIZE/2 - 10);
                         }
+                    }
+                    if(this.mostrarCaminho){
+                        //ctx.fillText(this.caminho[l][c], c*this.SIZE + this.SIZE/2, l*this.SIZE + this.SIZE/2 - 10);
                     }
                 }
                 if(this.mostrar){
