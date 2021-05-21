@@ -248,4 +248,37 @@ export default class Layer{
             }
         }
     }
+
+    getPath(mxE, myE, mxS, myS){
+        let path = new Path(this.LINHAS, this.COLUNAS, this.SIZE, this.cena);
+        /*path.addStep(5,5);
+        path.addStep(myE,mxE);
+        path.addStep(myS,mxS);*/
+
+        let mxAtual = mxE;
+        let myAtual = myE;
+
+        let init = this.layers[myAtual][mxAtual];
+
+        for (let i = 0; i < init; i++) {
+            if(this.direcoes[myAtual][mxAtual] === "O"){
+                path.addStep(myAtual,mxAtual);
+                mxAtual = mxAtual-1;  
+            } 
+            if(this.direcoes[myAtual][mxAtual] === "L"){
+                path.addStep(myAtual,mxAtual);
+                mxAtual = mxAtual+1;
+            } 
+            if(this.direcoes[myAtual][mxAtual] === "N"){
+                path.addStep(myAtual,mxAtual);
+                myAtual = myAtual-1;
+            } 
+            if(this.direcoes[myAtual][mxAtual] === "S"){
+                path.addStep(myAtual,mxAtual);
+                myAtual = myAtual+1;
+            } 
+        }
+
+        return path;
+    }
 }

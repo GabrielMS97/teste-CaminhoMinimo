@@ -45,17 +45,28 @@ export default class CenaMapaGrid extends Cena{
         const exit = new Sprite({x: 510, y: randValue(65,310), w: 20, h: 20, tags:["exit"], controlar:estatico});
         this.adicionar(exit);
         
-        // Desenha o path
+        // Cria o path
         const path1 = new Path(LINHAS, COLUNAS, TAMANHO_TILE);
-        path1.addStep(0,0);
-        path1.addStep(0,1);
-        path1.addStep(0,2);
-        path1.addStep(1,2);
-        path1.addStep(2,6);
-        path1.addStep(5,2);
-        path1.addStep(2,2);
-        path1.addStep(7,3);
+        path1.addStep(4,1);
+        path1.addStep(5,1);
+        path1.addStep(6,1);
+        path1.addStep(6,2);
+        path1.addStep(6,3);
+        path1.addStep(6,4);
+        path1.addStep(6,5);
+        path1.addStep(6,6);
+        path1.addStep(6,7);
+        path1.addStep(6,8);
+        path1.addStep(6,9);
+        path1.addStep(6,10);
+        path1.addStep(5,10);
+        path1.addStep(4,10);
+        path1.addStep(3,10);
+        //path1.removeStep(6,6);
         this.configuraPath(path1);
+
+        let path2 = this.layer.getPath(pc.mx, pc.my, exit.mx, exit.my);
+        this.configuraPath(path2);
 
         // Função geradora de valores aleatórios
         function randValue(min, max) {
@@ -69,7 +80,12 @@ export default class CenaMapaGrid extends Cena{
             cena.layer.iniciaLayers(pc.mx, pc.my, exit.mx, exit.my);
             cena.layer.inundarRecursivo(this.my, this.mx, this.my, this.mx);
             cena.layer.apontarDirecoes();
-            //cena.layer.calculaCaminho();
+
+            path2 = cena.layer.getPath(pc.mx, pc.my, exit.mx, exit.my);
+            cena.configuraPath(path2);
+
+            //path1.addStep(pc.my, pc.mx);
+            //cena.configuraPath(path1);
         }
 
         // Função de movimentação pelo teclado

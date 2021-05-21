@@ -92,4 +92,8 @@ export default class Path{
     addStep(x,y){
         this.steps[x][y] = 1;
     }
+
+    removeStep(x,y){
+        this.steps[x][y] = 0;
+    }
 }
